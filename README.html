@@ -1,0 +1,209 @@
+<HTML>
+<BODY TEXT="black" BGCOLOR="white">
+<FONT size="1">&nbsp;</FONT>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+  <tr>
+    <td align="center" valign="top">
+    <table width="98%" border="0" cellspacing="0" cellpadding="0" summary="">
+      <tr>
+        <td align="left" valign="bottom" width="30%">
+</td>
+        <td align="center" valign="center" width="40%">
+<FONT size="8">
+<b>colibri</b>
+</FONT><br>
+<i>- a free RTOS-subset</i>
+</td>
+        <td align="right" valign="bottom" width="30%">
+Sponsored by <A HREF="http://opensource.se">opensource.se</A>
+</td>
+      </tr>
+    </table>
+    <table width="98%" border="1" cellspacing="1" cellpadding="4" summary="">
+      <tr>
+        <td align="center" valign="top" bgcolor="#aaaaa0"><FONT size="4"><B>Introduction</B></FONT></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" bgcolor="#ccccc0"><FONT size="3">
+colibri is a free RTOS-subset released under a BSD-style license.
+The goal is to create a useful RTOS with support for a wide range of hardware
+platforms, from low-end microcontrollers to more advanced 32-bit processors.
+colibri is written in C and assembly.
+<p>
+System designers using colibri will get access to an API with several
+RTOS components such as a scheduler, semaphores and different libraries.
+Use of these components leads to shortened development time and less bugs.
+Focus could be put on the real application instead of reinventing the wheel.
+<p>
+colibri is not a <A HREF="http://www.linux.org">Linux</A>-killer. Put Linux or <A HREF="http://www.bsd.org">BSD</A> in advanced embedded
+systems using 32-bit processors with MMU. Use <A HREF="http://www.uclinux.org">uClinux</A> on your 32-bit
+processor without MMU. Use <A HREF="http://sources.redhat.com/ecos/">eCos</A> or <A HREF="http://www.rtems.com">RTEMS</A> if you need a 32-bit RTOS.
+But if you have a cost-effective hardware platform with limited resources - use <A HREF="http://colibri.org">colibri</A>!
+</FONT></td>
+      </tr>
+    </table>
+    <table width="98%" border="1" cellspacing="1" cellpadding="4" summary="">
+      <tr>
+        <td align="center" valign="top" bgcolor="#aaaaa0"><FONT size="4"><B>Philosophy</B></FONT></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" bgcolor="#ccccc0"><FONT size="3">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr>
+            <td align="right" valign="top" width="48%">Keep it simple</td>
+            <td align="center" valign="top" width="4%">-</td>
+            <td align="left" valign="top" width="48%">Simple code means less bugs.</td>
+          </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr>
+            <td align="right" valign="top" width="48%">Keep it portable</td>
+            <td align="center" valign="top" width="4%">-</td>
+            <td align="left" valign="top" width="48%">At least 90% of the code is written in C.</td>
+          </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr>
+            <td align="right" valign="top" width="48%">Keep it compact</td>
+            <td align="center" valign="top" width="4%">-</td>
+            <td align="left" valign="top" width="48%">Code redundancy is kept as low as possible.</td>
+          </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr>
+            <td align="right" valign="top" width="48%">Keep it standard</td>
+            <td align="center" valign="top" width="4%">-</td>
+            <td align="left" valign="top" width="48%">If possible, we use simple standard API:s.</td>
+          </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr>
+            <td align="right" valign="top" width="48%">Keep it maintainable</td>
+            <td align="center" valign="top" width="4%">-</td>
+            <td align="left" valign="top" width="48%">All official ports are in one code tree.</td>
+          </tr>
+        </table>
+</FONT></td>
+      </tr>
+    </table>
+    <table width="98%" border="1" cellspacing="1" cellpadding="4" summary="">
+      <tr>
+        <td align="center" valign="top" bgcolor="#aaaaa0"><FONT size="4"><B>License</B></FONT></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" bgcolor="#ccccc0"><FONT size="3">
+colibri is <A HREF="http://www.opensource.org">Open Source</A> software, and is released under a non-restrictive
+<A HREF="http://www.opensource.org/licenses/bsd-license.html">BSD-style license</A>. This basically means that you are free to do what ever you
+want with the code as long as you keep the copyright intact. See the source code for the full license. Our goal is that it should be legally easy to use
+colibri. No hassle.
+<p>
+We encourage our users to give feedback and report bugs to help us
+improve the code. Only this will lead to stable code, so help us out!
+</FONT></td>
+      </tr>
+    </table>
+    <table width="98%" border="1" cellspacing="1" cellpadding="4" summary="">
+      <tr>
+        <td align="center" valign="top" bgcolor="#aaaaa0"><FONT size="4"><B>Status</B></FONT></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" bgcolor="#ccccc0"><FONT size="3">
+Version 0.1.1 has a reentrant scheduler, timer functions, advanced semaphores
+(enhanced POSIX style), interrupt handling code, some h8 uart code and
+a small collection of generic data types.
+<p>
+Future work will be focused on a compact driver model based on generic FIFO:s.
+Then documentation, CompactFlash, DOS-fs, <A HREF="http://www.dunkels.com/adam/uip/">uIP</A>/<A HREF="http://www.sics.se/~adam/lwip/">lwIP</A>, TFTP, DHCP...
+</FONT></td>
+      </tr>
+    </table>
+    <table width="98%" border="1" cellspacing="1" cellpadding="4" summary="">
+      <tr>
+        <td align="center" valign="top" bgcolor="#aaaaa0"><FONT size="4"><B>Hardware</B></FONT></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" bgcolor="#ccccc0"><FONT size="3">
+colibri currently runs on two hardware platforms; the <A HREF="http://graphics.stanford.edu/~kekoa/rcx/">Lego RCX</A> brick (16-bit
+h8/3297), and a hms evb h8s/2633f (32-bit h8s/2633f).
+</FONT></td>
+      </tr>
+    </table>
+    <table width="98%" border="1" cellspacing="1" cellpadding="4" summary="">
+      <tr>
+        <td align="center" valign="top" bgcolor="#aaaaa0"><FONT size="4"><B>Compilers</B></FONT></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" bgcolor="#ccccc0"><FONT size="3">
+Makefiles are currently limited to a *nix based <A HREF="http://www.objsw.com/CrossGCC/">Cross-GCC toolchain</A>.
+Future improvements could include support for commercial compilers
+or other free compilers for small devices, such as <A HREF="http://sdcc.sourceforge.net/">SDCC</A> and <A HREF="http://www.cc65.org/">cc65</A>.
+Instructions how to setup a h8-compiler could be found at
+<A href="http://h8300-hms.sourceforge.net/">here</a>.
+<p>
+No external c-library should be required to compile colibri.
+</FONT></td>
+      </tr>
+    </table>
+    <table width="98%" border="1" cellspacing="1" cellpadding="4" summary="">
+      <tr>
+        <td align="center" valign="top" bgcolor="#aaaaa0"><FONT size="4"><B>Download</B></FONT></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" bgcolor="#ccccc0"><FONT size="3">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr>
+            <td align="center" valign="top">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+              <tr>
+                <td align="right" valign="top" width="40%">10-June-2002</td>
+                <td align="center" valign="top" width="2%"></td>
+                <td align="center" valign="top" width="16%"><A HREF="http://opensource.se/colibri/colibri-0.1.1.tar.gz">colibri-0.1.1.tar.gz</A></td>
+                <td align="center" valign="top" width="2%"></td>
+                <td align="left" valign="top" width="40%">[38.4 KBytes]</td>
+              </tr>
+            </table>
+</td>
+          </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr>
+            <td align="center" valign="top">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="">
+              <tr>
+                <td align="right" valign="top" width="40%">20-May-2002</td>
+                <td align="center" valign="top" width="2%"></td>
+                <td align="center" valign="top" width="16%"><A HREF="http://opensource.se/colibri/colibri-0.1.0.tar.gz">colibri-0.1.0.tar.gz</A></td>
+                <td align="center" valign="top" width="2%"></td>
+                <td align="left" valign="top" width="40%">[26.1 KBytes]</td>
+              </tr>
+            </table>
+</td>
+          </tr>
+        </table>
+</FONT></td>
+      </tr>
+    </table>
+    <table width="98%" border="1" cellspacing="1" cellpadding="4" summary="">
+      <tr>
+        <td align="center" valign="top" bgcolor="#aaaaa0"><FONT size="4"><B>Authors</B></FONT></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" bgcolor="#ccccc0"><FONT size="3">
+colibri is written by Magnus Damm, <A HREF="mailto:damm@opensource.se">damm@opensource.se</A>.
+</FONT></td>
+      </tr>
+    </table>
+    <table width="98%" border="0" cellspacing="1" cellpadding="4" summary="">
+      <tr>
+        <td align="left" valign="top">
+<FONT size="1">
+All trademarks used are properties of the respective owners.
+</FONT>
+</td>
+      </tr>
+    </table>
+</td>
+  </tr>
+</table>
+</BODY>
+</HTML>

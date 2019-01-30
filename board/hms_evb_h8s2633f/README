@@ -1,0 +1,11 @@
+hms_evb_h8s2633f-specific README for colibri-0.1.1, released 10-June-2002.
+
+Use the generic build instructions to build the code.
+To test the code on your evb:
+1. get and install ufpb_tool from http://opensource.se/projects/ufpb_tool
+2. connect a serial port from your PC to SCI2 of your evb.
+3. run "ufpb_tool -vl colibri.srec -r 0x200" to download and run colibri.
+4. switch over the serial port from SCI2 to SCI0.
+5. start a terminal program like minicom and use 9600n81 no flow control
+6. watch the output from the serial port and view main.c
+

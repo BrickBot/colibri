@@ -1,0 +1,58 @@
+#!/bin/bash
+
+function get_objects () {
+	
+    dir=$1
+
+    if [ -e ${dir}objects ]; then
+	source ${dir}objects
+
+	ret=$?
+
+	if [ $ret -ne 0 ]; then
+	    return 1;
+        fi
+
+	for s in $objects; 
+    	do
+	    echo ${dir}$s
+	done
+
+    fi;
+}
+
+if [ $# -ne 2 ]; then
+    echo "usage: $0 file colibri_config.sh"
+    exit 1
+fi
+
+file=$1
+file2=$2
+
+first=`cat $file | cut -c 1`
+
+if [ "$first" == "/" ]; then
+    echo "absolute path not supported."
+    exit 1
+fi
+
+nc=`echo -ne $file| wc -c`
+
+if [ $nc -ne 7 ]; then
+    dir=`echo -ne $file | cut -c 1-$(($nc - 7))`
+else
+    dir="./"
+fi
+
+if [ ! -d $dir ]; then
+    echo "not a directory"
+    exit 1
+fi
+
+if [ -f $file2 ]; then
+    source $file2
+fi
+
+get_objects $dir
+
+exit $?

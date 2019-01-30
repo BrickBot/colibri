@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function translate_objects () {
+    template=$1
+
+    startup=`cat $template | grep STARTUP`
+    startup=`echo $startup | tr -d ")" | tr -d "\"" | cut -c 9-`
+
+    ret=0
+    while [ $ret -eq 0 ];
+    do
+	read line
+	ret=$?
+
+	if [ $ret -eq 0 ]; then
+	    if [ "$startup" != "$line" ]; then
+		echo "INPUT(\"$line\")"
+	    fi
+	fi
+    done;
+}
+
+if [ $# -ne 1 ]; then
+	echo "usage: $0 linkerscript-template"
+	exit 1
+fi
+
+if [ ! -f $1 ]; then
+	echo "no such file"
+	exit 1
+fi
+
+translate_objects $1
+
+exit $?

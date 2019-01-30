@@ -1,0 +1,157 @@
+/* ------------------------------------------------------------------------- */
+/* board_rcx.ldscript                                                        */
+/*                                                                           */
+/* Copyright (c) 2002 Magnus Damm <damm@opensource.se>                       */
+/* All rights reserved.                                                      */
+/*                                                                           */
+/* Redistribution and use in source and binary forms, with or without        */
+/* modification, are permitted provided that the following conditions        */
+/* are met:                                                                  */
+/*                                                                           */
+/* 1. Redistributions of source code must retain the above copyright         */
+/*    notice, this list of conditions and the following disclaimer.          */
+/* 2. Redistributions in binary form must reproduce the above copyright      */
+/*    notice, this list of conditions and the following disclaimer in the    */
+/*    documentation and/or other materials provided with the distribution.   */
+/* 3. Neither the name of the copyright holders nor the name of its          */
+/*    contributors may be used to endorse or promote products derived        */
+/*    from this software without specific prior written permission.          */
+/*                                                                           */
+/* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS   */
+/* IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, */
+/* THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR    */
+/* PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT OWNER OR CONTRIBUTORS */
+/* BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR    */
+/* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF      */
+/* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS  */
+/* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN   */
+/* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)   */
+/* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF    */
+/* THE POSSIBILITY OF SUCH DAMAGE.                                           */
+/* ------------------------------------------------------------------------- */
+
+OUTPUT_FORMAT("coff-h8300")
+OUTPUT_ARCH(h8300)
+ENTRY("_start")
+
+MEMORY {
+  rom (r)  : o = 0x0000, l = 0x8000
+  ram      : o = 0x8000, l = 0x7000
+  motor    : o = 0xf000, l = 0x0010   /* memory-mapped motor controller */
+  ram1     : o = 0xf010, l = 0x0d70
+  romdata  : o = 0xfd80, l = 0x0040   /* port shadows, interrupt vectors */
+  ram2     : o = 0xfe00, l = 0x0100
+  ioreg    : o = 0xff80, l = 0x0080
+}
+
+SECTIONS {
+
+  .rom : {
+	_rom_clear_memory	= 0x0436 ;
+	_rom_power_init		= 0x2964 ;
+        _rom_init_milliseconds	= 0x3b9a ;
+  } > rom
+    
+  .text :	{
+    _start = 0x0000;
+    ___text = . ;
+    *(.text) 	      /* must start with text for clean entry */			
+    *(.rodata)
+    *(.strings)
+    *(.vectors)       /* vectors region (dummy) */
+    ___text_end = . ;
+    _etext = . ; 
+  } > ram
+
+  .tors : {
+    ___ctors = . ;
+    *(.ctors)
+    ___ctors_end = . ;
+    ___dtors = . ;
+    *(.dtors)
+    ___dtors_end = . ;
+  } > ram
+
+  .data : {
+    ___data = . ;
+    *(.data)
+    *(.tiny)
+    ___data_end = . ;
+    __edata = . ;
+  } > ram
+
+  .bss : {
+    ___bss     = . ;
+    _bss_start = . ; 
+    *(.bss)
+    *(COMMON)
+    ___bss_end = ALIGN(2) ;
+    _mm_start  = ALIGN(2) ;    /* start memory management here */
+    _end       = ALIGN(2) ;  
+  } > ram
+
+  .romdata : {
+    /* shadow registers */
+    
+    _rom_port1_ddr = 0x00 ; 
+    _rom_port2_ddr = 0x01 ; 
+    _rom_port3_ddr = 0x02 ; 
+    _rom_port4_ddr = 0x03 ; 
+    _rom_port5_ddr = 0x04 ; 
+    _rom_port6_ddr = 0x05 ; 
+    _rom_port7_pin = 0x06 ; 
+    
+    /* interrupt vectors */
+    
+    _rom_vector_reset	= 0x10 ; 
+    _rom_vector_nmi	= 0x12 ; 
+    _rom_vector_irq0	= 0x14 ; 
+    _rom_vector_irq1	= 0x16 ; 
+    _rom_vector_irq2	= 0x18 ; 
+    _rom_vector_icia	= 0x1a ; 
+    _rom_vector_icib	= 0x1c ; 
+    _rom_vector_icic	= 0x1e ; 
+    _rom_vector_icid	= 0x20 ; 
+    _rom_vector_ocia	= 0x22 ; 
+    _rom_vector_ocib	= 0x24 ; 
+    _rom_vector_fovi	= 0x26 ; 
+    _rom_vector_cmi0a	= 0x28 ; 
+    _rom_vector_cmi0b	= 0x2a ; 
+    _rom_vector_ovi0	= 0x2c ; 
+    _rom_vector_cmi1a	= 0x2e ; 
+    _rom_vector_cmi1b	= 0x30 ; 
+    _rom_vector_ovi1	= 0x32 ; 
+    _rom_vector_eri	= 0x34 ; 
+    _rom_vector_rxi	= 0x36 ; 
+    _rom_vector_txi	= 0x38 ; 
+    _rom_vector_tei	= 0x3a ; 
+    _rom_vector_adi	= 0x3c ; 
+    _rom_vector_wovf	= 0x3e ; 
+    
+  } > romdata
+
+  .motor : {
+    _motor_controller = 0 ;
+  } > motor
+  
+  .stack : {
+    _stack = . ; 
+    *(.stack)
+  } > ram4
+
+  .ioreg : {
+    *(.ioreg)
+
+    _cpu_regs = 0x00;
+
+  } > ioreg
+
+  .stab 0 (NOLOAD) : {
+    [ .stab ]
+  }
+
+  .stabstr 0 (NOLOAD) : {
+    [ .stabstr ]
+  }
+
+} /* SECTIONS */

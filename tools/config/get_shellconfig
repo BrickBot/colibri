@@ -1,0 +1,27 @@
+#!/bin/bash
+
+function get_shellconfig () {
+
+    ret=0
+    while [ $ret -eq 0 ];
+    do
+	read line
+	ret=$?
+
+	if [ $ret -eq 0 ]; then
+	    if [ ! -z "$line" ]; then
+		head=`echo -ne $line | cut -c 1-7`
+		if [ $head == "#define" ]; then
+		    line="`echo $line | cut -d " " -f 2-` true"
+		    echo $line | tr " " "=" | cut -d "=" -f 1-2
+		fi
+	    fi
+	fi
+    done;
+}
+
+get_shellconfig
+
+exit $?
+
+

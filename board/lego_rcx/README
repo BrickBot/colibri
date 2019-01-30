@@ -1,0 +1,8 @@
+lego_rcx-specific README for colibri-0.1.1, released 10-June-2002.
+
+Use the generic build instructions to build the code.
+To test the code on your RCX:
+1. use firmdl3 to download the code to the lego brick.
+2. watch the display and view main.c
+3. remove the batteries to power the brick off.
+

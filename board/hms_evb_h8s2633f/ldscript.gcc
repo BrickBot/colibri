@@ -1,0 +1,84 @@
+/* ------------------------------------------------------------------------- */
+/* ldscript                                                                  */
+/*                                                                           */
+/* Copyright (c) 2002 Magnus Damm <damm@opensource.se>                       */
+/* All rights reserved.                                                      */
+/*                                                                           */
+/* Redistribution and use in source and binary forms, with or without        */
+/* modification, are permitted provided that the following conditions        */
+/* are met:                                                                  */
+/*                                                                           */
+/* 1. Redistributions of source code must retain the above copyright         */
+/*    notice, this list of conditions and the following disclaimer.          */
+/* 2. Redistributions in binary form must reproduce the above copyright      */
+/*    notice, this list of conditions and the following disclaimer in the    */
+/*    documentation and/or other materials provided with the distribution.   */
+/* 3. Neither the name of the copyright holders nor the name of its          */
+/*    contributors may be used to endorse or promote products derived        */
+/*    from this software without specific prior written permission.          */
+/*                                                                           */
+/* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS   */
+/* IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, */
+/* THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR    */
+/* PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT OWNER OR CONTRIBUTORS */
+/* BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR    */
+/* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF      */
+/* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS  */
+/* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN   */
+/* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)   */
+/* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF    */
+/* THE POSSIBILITY OF SUCH DAMAGE.                                           */
+/* ------------------------------------------------------------------------- */
+
+OUTPUT_FORMAT("coff-h8300")
+OUTPUT_ARCH(h8300s)
+STARTUP("arch/h8/h8s/cpu_vector.o")
+
+INCLUDE "ldscript.tmp"
+
+MEMORY {
+  vectors  : o = 0x0000, l = 0x1000
+  flash (r): o = 0x1000, l = 0x3f000
+  ram      : o = 0x200000, l = 0x20000
+  ioreg    : o = 0xfff800, l = 0x800
+}
+
+SECTIONS {
+
+  .vectors : {
+    arch/h8/h8s/cpu_vector.o (.text)
+  } > vectors
+
+  .text : {
+    __text = . ;
+    *(.text); 	    
+    *(.rodata);
+    *(.sdata2);
+    __etext = . ; 
+  } > ram
+
+  .mdata : AT ( ADDR(.text) + SIZEOF(.text) ) {
+    __data = . ;
+    *(.sdata);
+    *(.mdata);
+    *(.data);
+    __edata = . ;
+  } > ram
+
+  .bss (NOLOAD) : { 
+    *(.noclearbss);
+    __bss = . ;
+    *(COMMON);
+    *(.sbss);
+    *(.bss);
+    __ebss = . ;
+  } > ram
+  
+  .ioreg : {
+    _cpu_regs = 0x00;
+  } > ioreg
+
+}
+
+
+
