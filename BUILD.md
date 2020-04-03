@@ -1,9 +1,8 @@
 This is the README file for colibri-0.1.1, released 10-June-2002.
 
 Version 0.1.1 supports two boards:
-
-lego_rcx
-hms_evb_h8s2633f
+* lego_rcx
+* hms_evb_h8s2633f
 
 Generic build instructions:
 
